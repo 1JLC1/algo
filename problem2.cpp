@@ -1,8 +1,7 @@
 class Solution {
 public:
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
-        const int INF = 1e9;
-        vector<vector<int>> d(n, vector<int>(n, INF));
+        vector<vector<int>> d(n, vector<int>(n, 1e9));
 
         for (int i = 0; i < n; i++) d[i][i] = 0;
         for (auto& e : edges) {
@@ -16,16 +15,18 @@ public:
                     if (d[i][k] + d[k][j] < d[i][j])
                         d[i][j] = d[i][k] + d[k][j];
 
-        int ans = -1, best = INT_MAX;
+        int answer = -1;
+        int best = 1e9;
+        
         for (int i = 0; i < n; i++) {
-            int cnt = 0;
+            int counter = 0;
             for (int j = 0; j < n; j++)
-                if (i != j && d[i][j] <= distanceThreshold) cnt++;
-            if (cnt <= best) {  
-                best = cnt;
-                ans = i;
+                if (i != j && d[i][j] <= distanceThreshold) counter++;
+            if (counter <= best) {  
+                best = counter;
+                answer = i;
             }
         }
-        return ans;
+        return answer;
     }
 };
