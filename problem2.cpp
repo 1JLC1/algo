@@ -1,9 +1,8 @@
-#include <algorithm> // for min()
+#include <algorithm>
 
 class Solution {
 public:
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
-        // create matrcies
         vector<vector<int>> d(n, vector<int>(n, 1e9));
 
         // add initial values -> edges
@@ -12,30 +11,25 @@ public:
             d[edges[i][1]][edges[i][0]] = edges[i][2];
         }
 
+        // add initial values -> distance to self
         for (int i = 0; i < n; i++) {
             d[i][i] = 0;
         }
 
         // the dk step
         for (int k = 0; k < n; k++) {
-            vector<vector<int>> dk(n, vector<int>(n, 1e9));
-
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    dk[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+                    d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
                 }
             }
-
-            d = dk;
         }
 
-        // relations
-
+        // check relationships
         vector<int> numRel(n, 0);
 
         for (int i = 0; i < d.size(); i++) {
             for (int j = 0; j < d[i].size(); j++) {
-
                 if (d[i][j] <= distanceThreshold) {
                     numRel[i]++;
                 }
