@@ -26,7 +26,7 @@ public:
         }
 
         // check relationships
-        vector<int> numRel(n, 0);
+        vector<int> numRel(n, -1);
 
         for (int i = 0; i < d.size(); i++) {
             for (int j = 0; j < d[i].size(); j++) {
@@ -36,16 +36,10 @@ public:
             }
         }
 
+        int idx = 0;
         for (int i = 0; i < numRel.size(); i++) {
-            numRel[i] = numRel[i] - 1;
-        }
-
-        int num = 1e9;
-        int idx = -1;
-        for (int i = 0; i < numRel.size(); i++) {
-            if (numRel[i] <= num) {
+            if (numRel[i] <= numRel[idx]) {
                 idx = i;
-                num = numRel[i];
             }
         }
 
